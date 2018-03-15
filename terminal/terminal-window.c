@@ -50,6 +50,7 @@
 #include <terminal/terminal-window-dropdown.h>
 #include <terminal/terminal-window-ui.h>
 #include <terminal/terminal-widget.h>
+#include <terminal/terminal-app.h>
 
 
 
@@ -258,6 +259,8 @@ static void         terminal_window_action_reset                  (GtkAction    
                                                                    TerminalWindow      *window);
 static void         terminal_window_action_reset_and_clear        (GtkAction           *action,
                                                                    TerminalWindow      *window);
+static void         terminal_window_action_pulse_savesession	  (GtkAction           *action,
+                                                                   TerminalWindow      *window);
 static void         terminal_window_action_contents               (GtkAction           *action,
                                                                    TerminalWindow      *window);
 static void         terminal_window_action_about                  (GtkAction           *action,
@@ -342,7 +345,6 @@ static gchar  *window_notebook_group = PACKAGE_NAME;
 static GQuark  tabs_menu_action_quark = 0;
 
 
-
 static const GtkActionEntry action_entries[] =
 {
   { "file-menu", NULL, N_ ("_File"), NULL, NULL, NULL, },
@@ -375,7 +377,8 @@ static const GtkActionEntry action_entries[] =
     { "search-prev", NULL, N_ ("Find Pre_vious"), NULL, NULL, G_CALLBACK (terminal_window_action_search_prev), },
     { "save-contents", "document-save-as", N_ ("Sa_ve Contents..."), NULL, NULL, G_CALLBACK (terminal_window_action_save_contents), },
     { "reset", NULL, N_ ("_Reset"), NULL, NULL, G_CALLBACK (terminal_window_action_reset), },
-    { "reset-and-clear", NULL, N_ ("_Clear Scrollback and Reset"), NULL, NULL, G_CALLBACK (terminal_window_action_reset_and_clear), },
+    { "reset-and-clear", NULL, N_ ("lear Scrollback and Reset"), NULL, NULL, G_CALLBACK (terminal_window_action_reset_and_clear), },
+    { "save-session", NULL, N_ ("Save Session"), NULL, NULL, G_CALLBACK (terminal_window_action_pulse_savesession), },
   { "tabs-menu", NULL, N_ ("T_abs"), NULL, NULL, NULL, },
     { "prev-tab", "go-previous", N_ ("_Previous Tab"), "<control>Page_Up", N_ ("Switch to previous tab"), G_CALLBACK (terminal_window_action_prev_tab), },
     { "next-tab", "go-next", N_ ("_Next Tab"), "<control>Page_Down", N_ ("Switch to next tab"), G_CALLBACK (terminal_window_action_next_tab), },
@@ -2525,6 +2528,18 @@ terminal_window_action_reset_and_clear (GtkAction       *action,
     {
       terminal_screen_reset (window->priv->active, TRUE);
       terminal_window_update_actions (window);
+    }
+}
+
+
+
+static void
+terminal_window_action_pulse_savesession (GtkAction       *action,
+                                        TerminalWindow  *window)
+{
+  if (G_LIKELY (window->active != NULL))
+    {
+      pulse_save_session();
     }
 }
 

@@ -37,6 +37,7 @@
 #include <terminal/terminal-preferences-dialog.h>
 
 
+TerminalApp     *app;
 
 static void
 colortable_sub (const gchar *bright,
@@ -172,6 +173,10 @@ main (int argc, char **argv)
 {
   TerminalOptions  options;
   TerminalApp     *app;
+  gboolean         show_help = FALSE;
+  gboolean         show_version = FALSE;
+  gboolean         show_colors = FALSE;
+  gboolean         disable_server = FALSE;
   const gchar     *startup_id;
   const gchar     *display;
   GError          *error = NULL;

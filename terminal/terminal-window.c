@@ -2539,7 +2539,7 @@ static void
 terminal_window_action_pulse_savesession (GtkAction       *action,
                                         TerminalWindow  *window)
 {
-  if (G_LIKELY (window->active != NULL))
+  if (G_LIKELY (window->priv->active != NULL))
     {
       pulse_save_session();
     }
@@ -2550,7 +2550,7 @@ static void
 terminal_window_action_pulse_restoresession (GtkAction       *action,
                                         TerminalWindow  *window)
 {
-  if (G_LIKELY (window->active != NULL))
+  if (G_LIKELY (window->priv->active != NULL))
     {
       pulse_restore_session();
     }
